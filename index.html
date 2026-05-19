@@ -38,6 +38,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .dt{display:flex;gap:6px;padding:10px 16px 12px;background:#FF7043}
 .dt button{flex:1;text-align:center;padding:7px 2px;border-radius:20px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.72);background:rgba(255,255,255,0.16);cursor:pointer;border:none}
 .dt button.active{background:white;color:#FF7043}
+.dt button.active.fds{background:white;color:#1976D2}
+.dt button.fds{color:rgba(255,255,255,0.85)}
 .ct{padding:14px 16px;display:flex;flex-direction:column;gap:9px}
 .pc{background:white;border-radius:13px;padding:12px 15px;display:flex;align-items:center;gap:10px;border:0.5px solid #e8e8e0}
 .pl{font-size:12px;color:#999;white-space:nowrap}
@@ -145,7 +147,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const SHEET_ID = '1LSsMaLYIuzs1RpVmp3nVS9BzKhVJi6FQEL4swmQaVfs';
 const SURL = 'https://script.google.com/macros/s/AKfycbycIgLWF8ntqcuvqQb8dJtEFuR6CEDZ_ocDMy5mxBV7daNciO4Z6NAbRlnTDXLXTCTSkg/exec';
 const PIN_OK = '1714';
-const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DIAS_FDS = ['Sábado','Domingo'];
 const TURNOS = ['mañana','tarde','noche'];
 const TICOS = {mañana:'☀️ Mañana', tarde:'🌤 Tarde', noche:'🌙 Noche'};
 
@@ -265,6 +268,9 @@ async function init(){
     }
   } catch(e){ console.log('Sheet offline, usando localStorage'); }
 
+  const esFds = DIAS_FDS.includes(diaActivo);
+  document.querySelector('.ah').style.background = esFds ? '#1976D2' : '#FF7043';
+  document.querySelector('.dt').style.background = esFds ? '#1976D2' : '#FF7043';
   renderTabs();
   renderContent();
 }
@@ -275,6 +281,8 @@ function renderTabs(){
   DIAS.forEach(d=>{
     const b=document.createElement('button');
     b.textContent=d.substring(0,3);
+    const fds = DIAS_FDS.includes(d);
+    if(fds) b.classList.add('fds');
     if(d===diaActivo) b.classList.add('active');
     b.onclick=()=>{diaActivo=d;renderTabs();renderContent();};
     w.appendChild(b);
