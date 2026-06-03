@@ -380,7 +380,7 @@ async function loadCompletados(){
     const fs=parseFecha(fecha);
     if(comp!==true)return;
     // Marcar completados de TODA LA SEMANA, no solo hoy
-    if(semana.includes(fs)) completados.add(tarea+'_'+dia+'_'+fs);
+    if(semana.includes(fs)) completados.add(tarea+'_'+dia+'_'+fs+'_'+(row.c[3]?.v||''));
     // Puntos: buscar en rutina para obtener valor correcto
     if(semana.includes(fs)){
       const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia);
@@ -453,9 +453,9 @@ function renderContent(){
   const tareas=rutina.filter(t=>t.dia===diaActivo).sort((a,b)=>a.orden-b.orden);
   // Fecha del día mostrado en pantalla
   const fechaDia=getFechaDia(diaActivo);
-  const total=tareas.length,hechas=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia)).length;
+  const total=tareas.length,hechas=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno)).length;
   const pct=total?Math.round(hechas/total*100):0;
-  const ptsHoy=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia)).reduce((s,t)=>s+t.puntos,0);
+  const ptsHoy=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno)).reduce((s,t)=>s+t.puntos,0);
   const msgs=['¡Vamos que puedes! 💪','¡Buen ritmo! 🔥','¡Ya casi! ⚡','¡Crack! 🏆'];
   const msg=pct===100?'¡Lo lograste todo! 🏆🎉':msgs[Math.min(Math.floor(pct/30),3)];
 
@@ -468,7 +468,7 @@ function renderContent(){
       const ts=tareas.filter(t=>t.turno===turno);if(!ts.length)return;
       html+=`<div class="tl ${ccc}">${TICOS[turno]}</div>`;
       ts.forEach((t,i)=>{
-        const key=t.tarea+'_'+diaActivo+'_'+fechaDia,done=completados.has(key);
+        const key=t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno,done=completados.has(key);
         const tid=`${turno.replace('ñ','n')}_${i}`;
         html+=`<div class="tr${done?' done':''}" onclick="tap('${tid}')"><span class="te">${t.emoji}</span><div class="ti"><div class="tn${done?' done':''}">${t.tarea}</div><div class="tt">${t.hi} – ${t.hf}</div></div><span class="pts-pill">+${t.puntos}⭐</span><div class="tc ${ccc}${done?' done':''}"></div></div>`;
       });
@@ -543,7 +543,7 @@ function tap(tid){
   const ts=rutina.filter(t=>t.dia===diaActivo&&t.turno===turno).sort((a,b)=>a.orden-b.orden);
   const t=ts[idx];if(!t)return;
   const fechaDia=getFechaDia(diaActivo);
-  const key=t.tarea+'_'+diaActivo+'_'+fechaDia;
+  const key=t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno;
   if(completados.has(key)){showToast('Ya está completada ✅');return;}
   if(t.estudio){pendingTask=t;openModal();}
   else{marcarTarea(t,'','','');}
@@ -568,13 +568,15 @@ async function marcarTarea(t,quien,materia,minutos){
   const fila=[getFechaDia(diaActivo),diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE'];
   try{
     await fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({fila})});
-    completados.add(key);
+    completados.add(t.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)+'_'+t.turno);
     puntosData[diaActivo]=(puntosData[diaActivo]||0)+t.puntos;
     playCheck();
     renderContent();
     const tareasDia=rutina.filter(t=>t.dia===diaActivo);
-    if(tareasDia.length&&tareasDia.every(t=>completados.has(t.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)))){
-      setTimeout(()=>{playCelebration();showCelebration('¡Día completado!','dia',puntosData[diaActivo]||0);},400);
+      const tareasDia=rutina.filter(r=>r.dia===diaActivo);
+    const ptsDia=tareasDia.filter(r=>completados.has(r.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)+'_'+r.turno)).reduce((s,r)=>s+Number(r.puntos),0);
+    if(tareasDia.length&&tareasDia.every(r=>completados.has(r.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)+'_'+r.turno))){
+      setTimeout(()=>{playCelebration();showCelebration('¡Día completado!','dia',ptsDia);},400);
     }
   }catch(e){
     showToast('⚠️ Sin conexión, no se pudo guardar');
