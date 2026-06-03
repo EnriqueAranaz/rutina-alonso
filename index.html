@@ -379,10 +379,13 @@ async function loadCompletados(){
     const fecha=row.c[0]?.v||'',dia=row.c[1]?.v||'',tarea=row.c[2]?.v||'',comp=row.c[8]?.v;
     const fs=parseFecha(fecha);
     if(comp!==true)return;
-    if(fs===todayStr)completados.add(tarea+'_'+dia);
+    // Marcar completados de TODA LA SEMANA, no solo hoy
+    if(semana.includes(fs)) completados.add(tarea+'_'+dia+'_'+fs);
+    // Puntos: buscar en rutina para obtener valor correcto
     if(semana.includes(fs)){
       const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia);
-      puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
+      const pts=t?Number(t.puntos):1;
+      puntosData[dia]=(puntosData[dia]||0)+pts;
     }
   });
 }
@@ -400,6 +403,12 @@ async function loadPremios(){
     premios.forEach(p=>{if(p.obtenido)premiosCanjeados.add(p.premio);});
     localStorage.setItem('premios_canjeados',JSON.stringify([...premiosCanjeados]));
   }catch(e){console.log('premios offline');}
+}
+
+function getFechaDia(dia){
+  const semana=getSemana();
+  const idx=DIAS.indexOf(dia);
+  return semana[idx]||todayStr;
 }
 
 function getSemana(){
@@ -442,9 +451,11 @@ function renderContent(){
   applyColor();
   const ccc=cc();
   const tareas=rutina.filter(t=>t.dia===diaActivo).sort((a,b)=>a.orden-b.orden);
-  const total=tareas.length,hechas=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo)).length;
+  // Fecha del día mostrado en pantalla
+  const fechaDia=getFechaDia(diaActivo);
+  const total=tareas.length,hechas=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia)).length;
   const pct=total?Math.round(hechas/total*100):0;
-  const ptsHoy=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo)).reduce((s,t)=>s+t.puntos,0);
+  const ptsHoy=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia)).reduce((s,t)=>s+t.puntos,0);
   const msgs=['¡Vamos que puedes! 💪','¡Buen ritmo! 🔥','¡Ya casi! ⚡','¡Crack! 🏆'];
   const msg=pct===100?'¡Lo lograste todo! 🏆🎉':msgs[Math.min(Math.floor(pct/30),3)];
 
@@ -457,7 +468,7 @@ function renderContent(){
       const ts=tareas.filter(t=>t.turno===turno);if(!ts.length)return;
       html+=`<div class="tl ${ccc}">${TICOS[turno]}</div>`;
       ts.forEach((t,i)=>{
-        const key=t.tarea+'_'+diaActivo,done=completados.has(key);
+        const key=t.tarea+'_'+diaActivo+'_'+fechaDia,done=completados.has(key);
         const tid=`${turno.replace('ñ','n')}_${i}`;
         html+=`<div class="tr${done?' done':''}" onclick="tap('${tid}')"><span class="te">${t.emoji}</span><div class="ti"><div class="tn${done?' done':''}">${t.tarea}</div><div class="tt">${t.hi} – ${t.hf}</div></div><span class="pts-pill">+${t.puntos}⭐</span><div class="tc ${ccc}${done?' done':''}"></div></div>`;
       });
@@ -531,7 +542,8 @@ function tap(tid){
   const turno=turnoRaw==='manana'?'mañana':turnoRaw;
   const ts=rutina.filter(t=>t.dia===diaActivo&&t.turno===turno).sort((a,b)=>a.orden-b.orden);
   const t=ts[idx];if(!t)return;
-  const key=t.tarea+'_'+diaActivo;
+  const fechaDia=getFechaDia(diaActivo);
+  const key=t.tarea+'_'+diaActivo+'_'+fechaDia;
   if(completados.has(key)){showToast('Ya está completada ✅');return;}
   if(t.estudio){pendingTask=t;openModal();}
   else{marcarTarea(t,'','','');}
@@ -550,10 +562,10 @@ function confirmEstudio(){
 }
 
 async function marcarTarea(t,quien,materia,minutos){
-  const key=t.tarea+'_'+diaActivo;
+  const key=t.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo);
   const now=new Date();
   const hora=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  const fila=[todayStr,diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE'];
+  const fila=[getFechaDia(diaActivo),diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE'];
   try{
     await fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({fila})});
     completados.add(key);
@@ -561,7 +573,7 @@ async function marcarTarea(t,quien,materia,minutos){
     playCheck();
     renderContent();
     const tareasDia=rutina.filter(t=>t.dia===diaActivo);
-    if(tareasDia.length&&tareasDia.every(t=>completados.has(t.tarea+'_'+diaActivo))){
+    if(tareasDia.length&&tareasDia.every(t=>completados.has(t.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)))){
       setTimeout(()=>{playCelebration();showCelebration('¡Día completado!','dia',puntosData[diaActivo]||0);},400);
     }
   }catch(e){
