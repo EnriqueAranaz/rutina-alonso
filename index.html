@@ -550,7 +550,7 @@ function confirmEstudio(){
   const mat=document.getElementById('m-mat').value.trim(),min=document.getElementById('m-min').value.trim(),quien=document.getElementById('m-quien').value;
   if(!mat){showToast('Escribe la materia 📝');return;}
   if(!min||Number(min)<1){showToast('Escribe los minutos ⏱');return;}
-  closeModal();marcarTarea(pendingTask,quien,mat,min);pendingTask=null;
+  const task=pendingTask;closeModal();marcarTarea(task,quien,mat,min);
 }
 
 async function marcarTarea(t,quien,materia,minutos){
