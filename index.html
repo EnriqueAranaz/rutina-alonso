@@ -10,6 +10,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f0;min-height:100vh;overflow-x:hidden}
+
 #pin-screen{position:fixed;inset:0;background:#1a1a2e;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:28px}
 #pin-screen h2{color:white;font-size:22px;font-weight:600}
 .pin-dots{display:flex;gap:16px}
@@ -20,6 +21,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pin-btn:active{background:rgba(255,255,255,0.25)}
 .pin-error{color:#FF7043;font-size:14px;opacity:0;transition:opacity .3s}
 .pin-error.show{opacity:1}
+
 #splash{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:flex-end;z-index:1000;padding-bottom:56px;background:#0a0a1a}
 #splash-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
 #splash-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 30%,rgba(5,5,20,0.88) 100%)}
@@ -27,6 +29,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sc h1{font-size:30px;font-weight:700;text-shadow:0 2px 16px rgba(0,0,0,0.9)}
 .sc p{font-size:15px;opacity:0.82}
 .ebtn{margin-top:24px;background:#FF7043;color:white;border:none;border-radius:28px;padding:15px 52px;font-size:18px;font-weight:700;cursor:pointer}
+
 #app,#puntos-screen,#premios-screen{display:none;max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px}
 .ah{padding:18px 20px 0;color:white;transition:background .3s}
 .ah h1{font-size:21px;font-weight:700}
@@ -37,10 +40,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .dt button.active{background:white;color:#FF7043}
 .dt button.active.fds{color:#1565C0!important}
 .dt button.fds:not(.active){background:rgba(255,255,255,0.32);font-weight:700}
+
 .bnav{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:white;border-top:0.5px solid #e8e8e0;display:flex;z-index:100}
 .bnav button{flex:1;padding:10px 4px 14px;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:500;color:#aaa}
 .bnav button.active{color:#FF7043}
 .bnav button span{font-size:20px}
+
 .ct{padding:14px 16px;display:flex;flex-direction:column;gap:9px}
 .pc{background:white;border-radius:13px;padding:12px 15px;display:flex;align-items:center;gap:10px;border:0.5px solid #e8e8e0}
 .pl{font-size:12px;color:#999;white-space:nowrap;flex:1}
@@ -65,7 +70,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tc.done::after{content:'';width:8px;height:5px;border-left:2.5px solid white;border-bottom:2.5px solid white;transform:rotate(-45deg) translateY(-1px);display:block}
 .pts-pill{font-size:10px;font-weight:700;color:#7B1FA2;background:#f3e5f5;border-radius:8px;padding:2px 6px;margin-left:4px;flex-shrink:0}
 
-/* PUNTOS */
 .pts-hdr{background:#7B1FA2;padding:18px 20px 20px;color:white}
 .pts-hdr h1{font-size:21px;font-weight:700}
 .pts-hdr .sub{font-size:12px;opacity:0.85;margin-top:3px}
@@ -79,11 +83,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pts-day-bar-fill{height:100%;background:#7B1FA2;border-radius:4px;transition:width .5s}
 .pts-day-num{font-size:14px;font-weight:700;color:#7B1FA2;min-width:32px;text-align:right}
 
-/* PREMIOS */
 .prm-hdr{background:#1565C0;padding:18px 20px 16px;color:white}
 .prm-hdr h1{font-size:21px;font-weight:700}
 .prm-hdr .sub{font-size:12px;opacity:0.85;margin-top:3px}
-.prm-saldo{margin:14px 16px 6px;background:white;border-radius:13px;padding:14px 16px;border:0.5px solid #e8e8e0;display:flex;gap:0}
+.prm-saldo{margin:14px 16px 6px;background:white;border-radius:13px;padding:14px 16px;border:0.5px solid #e8e8e0;display:flex}
 .prm-saldo-item{flex:1;text-align:center}
 .prm-saldo-num{font-size:26px;font-weight:800}
 .prm-saldo-num.ganados{color:#7B1FA2}
@@ -96,13 +99,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .prm-card.obtenido{background:#f0f7ff;border-color:#bbdefb}
 .prm-emoji{font-size:30px;flex-shrink:0}
 .prm-info{flex:1;min-width:0}
-.prm-name{font-size:14px;font-weight:600;color:#2c2c2a;line-height:1.3}
+.prm-name{font-size:14px;font-weight:600;color:#2c2c2a}
 .prm-pts{font-size:12px;color:#999;margin-top:2px}
 .prm-btn{background:#1565C0;color:white;border:none;border-radius:20px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .prm-btn.obtenido{background:#e8f5e9;color:#2E7D32;cursor:default}
 .prm-btn.sin-pts{background:#f5f5f5;color:#aaa}
 
-/* CELEBRATION */
 #celebration{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:3000;flex-direction:column;align-items:center;justify-content:center}
 #celebration.show{display:flex}
 .cel-box{background:white;border-radius:24px;padding:32px 28px;text-align:center;max-width:300px;animation:popIn .4s ease}
@@ -124,6 +126,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .mdb{display:flex;gap:10px;margin-top:6px}
 .bc{flex:1;padding:14px;border-radius:13px;border:1.5px solid #e8e8e0;background:white;font-size:15px;font-weight:500;color:#999;cursor:pointer}
 .bo{flex:2;padding:14px;border-radius:13px;border:none;background:#FF7043;color:white;font-size:15px;font-weight:700;cursor:pointer}
+
 .loading{text-align:center;padding:48px 20px;color:#bbb;font-size:14px}
 .err{background:#fff0ed;border:1px solid #ffccbc;border-radius:12px;padding:14px;font-size:13px;color:#bf360c;text-align:center;line-height:1.6}
 #toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(16px);background:#2c2c2a;color:white;padding:11px 22px;border-radius:22px;font-size:13px;opacity:0;transition:all .3s;z-index:900;pointer-events:none;white-space:nowrap}
@@ -189,30 +192,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div id="premios-screen">
   <div class="prm-hdr">
     <h1>🎁 Mis Premios</h1>
-    <div class="sub" id="prm-sub">¡Canjea tus puntos!</div>
+    <div class="sub">¡Canjea tus puntos!</div>
   </div>
   <div class="prm-saldo" id="prm-saldo"></div>
   <div class="prm-section-title">Premios disponibles</div>
-  <div id="prm-lista"><div class="loading">Cargando premios... ⏳</div></div>
+  <div id="prm-lista"><div class="loading">Cargando... ⏳</div></div>
 </div>
 
 <div class="bnav" id="bnav" style="display:none">
-  <button class="active" id="nav-rutina" onclick="showScreen('rutina')">
-    <span>📋</span>Rutina
-  </button>
-  <button id="nav-puntos" onclick="showScreen('puntos')">
-    <span>⭐</span>Puntos
-  </button>
-  <button id="nav-premios" onclick="showScreen('premios')">
-    <span>🎁</span>Premios
-  </button>
+  <button class="active" id="nav-rutina" onclick="showScreen('rutina')"><span>📋</span>Rutina</button>
+  <button id="nav-puntos" onclick="showScreen('puntos')"><span>⭐</span>Puntos</button>
+  <button id="nav-premios" onclick="showScreen('premios')"><span>🎁</span>Premios</button>
 </div>
 
 <div id="celebration">
   <div class="cel-box">
     <span class="cel-emoji" id="cel-emoji">🏆</span>
     <div class="cel-title" id="cel-title">¡Día completado!</div>
-    <div class="cel-sub" id="cel-sub">¡Lo has conseguido, Alonso!</div>
+    <div class="cel-sub" id="cel-sub">¡Lo has conseguido!</div>
     <div class="cel-pts" id="cel-pts"></div>
     <button class="cel-btn" onclick="closeCelebration()">¡Genial! 🎉</button>
   </div>
@@ -249,53 +246,22 @@ const FDS=['Sábado','Domingo'];
 const TURNOS=['mañana','tarde','noche'];
 const TICOS={mañana:'☀️ Mañana',tarde:'🌤 Tarde',noche:'🌙 Noche'};
 
-let rutina=[],premios=[],completados=new Set(),puntosData={},puntosGastados=0;
-let premiosCanjeados=new Set(),diaActivo='',pendingTask=null,todayStr='';
+let rutina=[],premios=[],completados=new Set(),puntosData={},puntosGastados=0,premiosCanjeados=new Set();
+let diaActivo='',pendingTask=null,todayStr='';
 let audioCtx=null;
 
 function ac(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
-
 function playCheck(){
-  try{
-    const c=ac(),o=c.createOscillator(),g=c.createGain();
-    o.type='triangle';o.frequency.value=880;
-    o.connect(g);g.connect(c.destination);
-    g.gain.setValueAtTime(0.4,c.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.6);
-    o.start();o.stop(c.currentTime+0.6);
-  }catch(e){}
+  try{const c=ac(),o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.value=880;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(0.4,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.6);o.start();o.stop(c.currentTime+0.6);}catch(e){}
 }
-
 function playCelebration(){
-  try{
-    const c=ac();
-    [523,659,784,1047].forEach((f,i)=>{
-      const o=c.createOscillator(),g=c.createGain();
-      o.type='triangle';o.frequency.value=f;
-      o.connect(g);g.connect(c.destination);
-      const t=c.currentTime+i*0.13;
-      g.gain.setValueAtTime(0.35,t);
-      g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
-      o.start(t);o.stop(t+0.4);
-    });
-  }catch(e){}
+  try{const c=ac();[523,659,784,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(c.destination);const t=c.currentTime+i*0.13;g.gain.setValueAtTime(0.35,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.4);o.start(t);o.stop(t+0.4);});}catch(e){}
 }
-
 function playCanjeado(){
-  try{
-    const c=ac();
-    [784,1047,1319].forEach((f,i)=>{
-      const o=c.createOscillator(),g=c.createGain();
-      o.type='triangle';o.frequency.value=f;
-      o.connect(g);g.connect(c.destination);
-      const t=c.currentTime+i*0.1;
-      g.gain.setValueAtTime(0.3,t);
-      g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
-      o.start(t);o.stop(t+0.3);
-    });
-  }catch(e){}
+  try{const c=ac();[784,1047,1319].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(c.destination);const t=c.currentTime+i*0.1;g.gain.setValueAtTime(0.3,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);o.start(t);o.stop(t+0.3);});}catch(e){}
 }
 
+// ── PIN ──────────────────────────────────────────────────────────
 let pinVal='';
 function pinPress(n){
   if(pinVal.length>=4)return;
@@ -307,12 +273,21 @@ function pinPress(n){
       document.getElementById('splash').style.display='flex';
     }else{
       document.getElementById('pin-error').classList.add('show');
-      setTimeout(()=>{pinVal='';for(let i=0;i<4;i++)document.getElementById('d'+i).classList.remove('filled');document.getElementById('pin-error').classList.remove('show');},1000);
+      setTimeout(()=>{
+        pinVal='';
+        for(let i=0;i<4;i++)document.getElementById('d'+i).classList.remove('filled');
+        document.getElementById('pin-error').classList.remove('show');
+      },1000);
     }
   }
 }
-function pinDel(){if(!pinVal.length)return;document.getElementById('d'+(pinVal.length-1)).classList.remove('filled');pinVal=pinVal.slice(0,-1);}
+function pinDel(){
+  if(!pinVal.length)return;
+  document.getElementById('d'+(pinVal.length-1)).classList.remove('filled');
+  pinVal=pinVal.slice(0,-1);
+}
 
+// ── INIT ─────────────────────────────────────────────────────────
 function enterApp(){
   document.getElementById('splash').style.display='none';
   document.getElementById('app').style.display='block';
@@ -330,19 +305,19 @@ async function init(){
   diaActivo=DIAS.includes(diaHoy)?diaHoy:'Lunes';
   document.getElementById('hdr-date').textContent=`${diaHoy} · ${now.getDate()} de ${meses[now.getMonth()]}`;
   document.getElementById('splash-sub').textContent=`¡Hola Alonso! Hoy es ${diaHoy} 💪`;
-
   puntosGastados=parseInt(localStorage.getItem('pts_gastados')||'0');
   premiosCanjeados=new Set(JSON.parse(localStorage.getItem('premios_canjeados')||'[]'));
-
   renderTabs();
   try{
-    await Promise.all([loadRutina(),loadCompletados(),loadPremios()]);
+    await Promise.all([loadRutina(),loadPremios()]);
+    await loadCompletados();
     renderContent();
   }catch(e){
     document.getElementById('content').innerHTML=`<div class="err">⚠️ Sin conexión. Necesitas internet para usar la app.<br><br><button onclick="init()" style="background:#FF7043;color:white;border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer">🔄 Reintentar</button></div>`;
   }
 }
 
+// ── HELPERS ───────────────────────────────────────────────────────
 function esFds(d){return FDS.includes(d||diaActivo);}
 function cc(d){return esFds(d)?'fds':'semana';}
 function applyColor(){
@@ -350,79 +325,18 @@ function applyColor(){
   document.getElementById('app-header').style.background=c;
   document.getElementById('day-tabs').style.background=c;
 }
-
-async function gviz(sheet){
-  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}&headers=1`;
-  const r=await fetch(url);
-  const txt=await r.text();
-  return JSON.parse(txt.replace(/^[^(]+\(/,'').replace(/\);?\s*$/,''));
-}
-
-async function loadRutina(){
-  try{
-    const j=await gviz('rutina');
-    rutina=j.table.rows.map(r=>({
-      dia:r.c[0]?.v||'',turno:r.c[1]?.v||'',orden:r.c[2]?.v||0,
-      hi:parseHora(r.c[3]),hf:parseHora(r.c[4]),
-      tarea:r.c[5]?.v||'',emoji:r.c[6]?.v||'✅',
-      estudio:r.c[7]?.v===true,
-      puntos:r.c[8]?.v||1
-    })).filter(r=>r.dia&&r.tarea);
-  }catch(e){document.getElementById('content').innerHTML=`<div class="err">⚠️ Error: ${e.message}</div>`;}
-}
-
-async function loadCompletados(){
-  const j=await gviz('registros');
-  const semana=getSemana();
-  puntosData={};completados=new Set();
-  (j.table.rows||[]).forEach(row=>{
-    const fecha=row.c[0]?.v||'',dia=row.c[1]?.v||'',tarea=row.c[2]?.v||'',comp=row.c[8]?.v;
-    const fs=parseFecha(fecha);
-    if(comp!==true)return;
-    // Marcar completados de TODA LA SEMANA, no solo hoy
-    if(semana.includes(fs)) completados.add(tarea+'_'+dia+'_'+fs+'_'+(row.c[3]?.v||''));
-    // Puntos: buscar en rutina para obtener valor correcto
-    if(semana.includes(fs)){
-      const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia);
-      const pts=t?Number(t.puntos):1;
-      puntosData[dia]=(puntosData[dia]||0)+pts;
-    }
-  });
-}
-
-async function loadPremios(){
-  try{
-    const j=await gviz('premios');
-    premios=(j.table.rows||[]).map(r=>({
-      premio:r.c[0]?.v||'',
-      puntos:r.c[1]?.v||0,
-      emoji:r.c[2]?.v||'🎁',
-      obtenido:r.c[3]?.v===true
-    })).filter(r=>r.premio);
-    // Sincronizar canjeados del Sheet
-    premios.forEach(p=>{if(p.obtenido)premiosCanjeados.add(p.premio);});
-    localStorage.setItem('premios_canjeados',JSON.stringify([...premiosCanjeados]));
-  }catch(e){console.log('premios offline');}
-}
-
-function getFechaDia(dia){
-  const semana=getSemana();
-  const idx=DIAS.indexOf(dia);
-  return semana[idx]||todayStr;
-}
-
+function clave(tarea,dia,fecha,turno){return `${tarea}||${dia}||${fecha}||${turno}`;}
+function getFechaDia(dia){return getSemana()[DIAS.indexOf(dia)]||todayStr;}
 function getSemana(){
   const now=new Date(),dow=now.getDay();
   const lun=new Date(now);lun.setDate(now.getDate()-(dow===0?6:dow-1));
   return Array.from({length:7},(_,i)=>{const d=new Date(lun);d.setDate(lun.getDate()+i);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');});
 }
-
 function parseFecha(v){
   const dm=String(v).match(/Date\((\d+),(\d+),(\d+)/);
   if(dm)return dm[1]+'-'+String(parseInt(dm[2])+1).padStart(2,'0')+'-'+String(dm[3]).padStart(2,'0');
   return String(v).substring(0,10);
 }
-
 function parseHora(cell){
   if(!cell)return '';
   if(cell.f){const p=cell.f.split(':');return p.length===2?p[0].padStart(2,'0')+':'+p[1].padStart(2,'0'):cell.f;}
@@ -430,10 +344,55 @@ function parseHora(cell){
   if(m)return m[1].padStart(2,'0')+':'+m[2].padStart(2,'0');
   return String(cell.v||'');
 }
-
+async function gviz(sheet){
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}&headers=1`;
+  const r=await fetch(url);
+  const txt=await r.text();
+  return JSON.parse(txt.replace(/^[^(]+\(/,'').replace(/\);?\s*$/,''));
+}
 function ptsGanados(){return Object.values(puntosData).reduce((s,v)=>s+v,0);}
 function ptsDisponibles(){return Math.max(0,ptsGanados()-puntosGastados);}
 
+// ── CARGA ─────────────────────────────────────────────────────────
+async function loadRutina(){
+  const j=await gviz('rutina');
+  rutina=j.table.rows.map(r=>({
+    dia:r.c[0]?.v||'',turno:r.c[1]?.v||'',orden:r.c[2]?.v||0,
+    hi:parseHora(r.c[3]),hf:parseHora(r.c[4]),
+    tarea:r.c[5]?.v||'',emoji:r.c[6]?.v||'✅',
+    estudio:r.c[7]?.v===true,
+    puntos:Number(r.c[8]?.v)||1
+  })).filter(r=>r.dia&&r.tarea);
+}
+
+async function loadCompletados(){
+  const j=await gviz('registros');
+  const semana=getSemana();
+  puntosData={};completados=new Set();
+  (j.table.rows||[]).forEach(row=>{
+    const fecha=parseFecha(row.c[0]?.v||'');
+    const dia=row.c[1]?.v||'';
+    const tarea=row.c[2]?.v||'';
+    const turno=row.c[3]?.v||'';
+    const comp=row.c[8]?.v;
+    if(comp!==true||!semana.includes(fecha))return;
+    completados.add(clave(tarea,dia,fecha,turno));
+    const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia&&r.turno===turno);
+    puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
+  });
+}
+
+async function loadPremios(){
+  const j=await gviz('premios');
+  premios=(j.table.rows||[]).map(r=>({
+    premio:r.c[0]?.v||'',puntos:Number(r.c[1]?.v)||0,
+    emoji:r.c[2]?.v||'🎁',obtenido:r.c[3]?.v===true
+  })).filter(r=>r.premio);
+  premios.forEach(p=>{if(p.obtenido)premiosCanjeados.add(p.premio);});
+  localStorage.setItem('premios_canjeados',JSON.stringify([...premiosCanjeados]));
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
 function renderTabs(){
   applyColor();
   const w=document.getElementById('day-tabs');w.innerHTML='';
@@ -450,27 +409,38 @@ function renderTabs(){
 function renderContent(){
   applyColor();
   const ccc=cc();
-  const tareas=rutina.filter(t=>t.dia===diaActivo).sort((a,b)=>a.orden-b.orden);
-  // Fecha del día mostrado en pantalla
   const fechaDia=getFechaDia(diaActivo);
-  const total=tareas.length,hechas=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno)).length;
+  const tareas=rutina.filter(t=>t.dia===diaActivo).sort((a,b)=>a.orden-b.orden);
+  const total=tareas.length;
+  const hechas=tareas.filter(t=>completados.has(clave(t.tarea,diaActivo,fechaDia,t.turno))).length;
   const pct=total?Math.round(hechas/total*100):0;
-  const ptsHoy=tareas.filter(t=>completados.has(t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno)).reduce((s,t)=>s+t.puntos,0);
+  const ptsHoy=tareas.filter(t=>completados.has(clave(t.tarea,diaActivo,fechaDia,t.turno))).reduce((s,t)=>s+t.puntos,0);
   const msgs=['¡Vamos que puedes! 💪','¡Buen ritmo! 🔥','¡Ya casi! ⚡','¡Crack! 🏆'];
   const msg=pct===100?'¡Lo lograste todo! 🏆🎉':msgs[Math.min(Math.floor(pct/30),3)];
 
-  let html=`<div class="pc"><span class="pl">${msg}</span><div class="pb"><div class="pf ${ccc}" style="width:${pct}%"></div></div><span class="pp ${ccc}">${hechas}/${total}</span></div>
-  <div class="pc" style="justify-content:center;gap:8px"><span style="font-size:13px;color:#999">⭐ Puntos hoy:</span><span style="font-size:18px;font-weight:800;color:#7B1FA2">${ptsHoy}</span><span style="font-size:13px;color:#999;margin-left:8px">Total semana:</span><span style="font-size:18px;font-weight:800;color:#1565C0">${ptsDisponibles()}</span></div>`;
+  let html=`
+  <div class="pc"><span class="pl">${msg}</span><div class="pb"><div class="pf ${ccc}" style="width:${pct}%"></div></div><span class="pp ${ccc}">${hechas}/${total}</span></div>
+  <div class="pc" style="justify-content:center;gap:8px">
+    <span style="font-size:13px;color:#999">⭐ Hoy:</span>
+    <span style="font-size:18px;font-weight:800;color:#7B1FA2">${ptsHoy}</span>
+    <span style="font-size:13px;color:#999;margin-left:8px">Semana:</span>
+    <span style="font-size:18px;font-weight:800;color:#1565C0">${ptsDisponibles()}</span>
+  </div>`;
 
-  if(total===0){html+=`<div class="loading">Sin tareas para este día</div>`;}
+  if(!total){html+='<div class="loading">Sin tareas para este día</div>';}
   else{
     TURNOS.forEach(turno=>{
       const ts=tareas.filter(t=>t.turno===turno);if(!ts.length)return;
       html+=`<div class="tl ${ccc}">${TICOS[turno]}</div>`;
       ts.forEach((t,i)=>{
-        const key=t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno,done=completados.has(key);
+        const done=completados.has(clave(t.tarea,diaActivo,fechaDia,t.turno));
         const tid=`${turno.replace('ñ','n')}_${i}`;
-        html+=`<div class="tr${done?' done':''}" onclick="tap('${tid}')"><span class="te">${t.emoji}</span><div class="ti"><div class="tn${done?' done':''}">${t.tarea}</div><div class="tt">${t.hi} – ${t.hf}</div></div><span class="pts-pill">+${t.puntos}⭐</span><div class="tc ${ccc}${done?' done':''}"></div></div>`;
+        html+=`<div class="tr${done?' done':''}" onclick="tap('${tid}')">
+          <span class="te">${t.emoji}</span>
+          <div class="ti"><div class="tn${done?' done':''}">${t.tarea}</div><div class="tt">${t.hi} – ${t.hf}</div></div>
+          <span class="pts-pill">+${t.puntos}⭐</span>
+          <div class="tc ${ccc}${done?' done':''}"></div>
+        </div>`;
       });
     });
   }
@@ -479,10 +449,10 @@ function renderContent(){
 
 function renderPuntos(){
   document.getElementById('pts-total').textContent=ptsGanados();
-  const maxPts=Math.max(...DIAS.map(d=>puntosData[d]||0),1);
+  const max=Math.max(...DIAS.map(d=>puntosData[d]||0),1);
   document.getElementById('pts-dias').innerHTML=DIAS.map(d=>{
-    const pts=puntosData[d]||0,pct=Math.round(pts/maxPts*100);
-    return `<div class="pts-day-row"><span class="pts-day-name">${d.substring(0,3)}</span><div class="pts-day-bar-bg"><div class="pts-day-bar-fill" style="width:${pct}%"></div></div><span class="pts-day-num">${pts}</span></div>`;
+    const pts=puntosData[d]||0;
+    return `<div class="pts-day-row"><span class="pts-day-name">${d.substring(0,3)}</span><div class="pts-day-bar-bg"><div class="pts-day-bar-fill" style="width:${Math.round(pts/max*100)}%"></div></div><span class="pts-day-num">${pts}</span></div>`;
   }).join('');
 }
 
@@ -494,13 +464,12 @@ function renderPremios(){
     <div class="prm-saldo-item"><div class="prm-saldo-num gastados">${gas}</div><div class="prm-saldo-lbl">gastados</div></div>
     <div class="prm-sep"></div>
     <div class="prm-saldo-item"><div class="prm-saldo-num disponibles">${disp}</div><div class="prm-saldo-lbl">disponibles</div></div>`;
-
-  if(!premios.length){document.getElementById('prm-lista').innerHTML='<div class="loading">Cargando premios... ⏳</div>';return;}
+  if(!premios.length){document.getElementById('prm-lista').innerHTML='<div class="loading">Sin premios configurados</div>';return;}
   document.getElementById('prm-lista').innerHTML=premios.map((p,i)=>{
     const canjeado=premiosCanjeados.has(p.premio);
     const tienePts=disp>=p.puntos;
-    let btnClass=canjeado?'obtenido':(!tienePts?'sin-pts':'');
-    let btnTxt=canjeado?'✅ ¡Conseguido!':'Canjear '+p.puntos+'⭐';
+    const btnClass=canjeado?'obtenido':(!tienePts?'sin-pts':'');
+    const btnTxt=canjeado?'✅ ¡Conseguido!':'Canjear '+p.puntos+'⭐';
     return `<div class="prm-card${canjeado?' obtenido':''}">
       <span class="prm-emoji">${p.emoji}</span>
       <div class="prm-info"><div class="prm-name">${p.premio}</div><div class="prm-pts">${p.puntos} puntos</div></div>
@@ -509,85 +478,85 @@ function renderPremios(){
   }).join('');
 }
 
-function canjear(i){
-  const p=premios[i];
-  if(premiosCanjeados.has(p.premio)){showToast('¡Ya lo has conseguido! ✅');return;}
-  const disp=ptsDisponibles();
-  if(disp<p.puntos){
-    showToast(`¡Sigue esforzándote, casi lo tienes! 💪 Te faltan ${p.puntos-disp}⭐`);
-    return;
-  }
-  premiosCanjeados.add(p.premio);
-  puntosGastados+=p.puntos;
-  localStorage.setItem('premios_canjeados',JSON.stringify([...premiosCanjeados]));
-  localStorage.setItem('pts_gastados',String(puntosGastados));
-  playCanjeado();
-  // Enviar al Sheet
-  fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'premio',premio:p.premio,puntos:p.puntos,fecha:todayStr})}).catch(()=>{});
-  showCelebration(`¡Premio canjeado!\n${p.emoji} ${p.premio}`,'premio',p.puntos);
-  renderPremios();
-}
-
 function showScreen(s){
-  ['rutina','puntos','premios'].forEach(x=>{
-    document.getElementById(x==='rutina'?'app':x+'-screen').style.display=x===s?'block':'none';
-    document.getElementById('nav-'+x).classList.toggle('active',x===s);
-  });
+  document.getElementById('app').style.display=s==='rutina'?'block':'none';
+  document.getElementById('puntos-screen').style.display=s==='puntos'?'block':'none';
+  document.getElementById('premios-screen').style.display=s==='premios'?'block':'none';
+  ['rutina','puntos','premios'].forEach(x=>document.getElementById('nav-'+x).classList.toggle('active',x===s));
   if(s==='puntos')renderPuntos();
   if(s==='premios')renderPremios();
 }
 
+// ── ACCIONES ──────────────────────────────────────────────────────
 function tap(tid){
   const parts=tid.split('_'),turnoRaw=parts[0],idx=parseInt(parts[1]);
   const turno=turnoRaw==='manana'?'mañana':turnoRaw;
   const ts=rutina.filter(t=>t.dia===diaActivo&&t.turno===turno).sort((a,b)=>a.orden-b.orden);
   const t=ts[idx];if(!t)return;
-  const fechaDia=getFechaDia(diaActivo);
-  const key=t.tarea+'_'+diaActivo+'_'+fechaDia+'_'+t.turno;
-  if(completados.has(key)){showToast('Ya está completada ✅');return;}
+  if(completados.has(clave(t.tarea,diaActivo,getFechaDia(diaActivo),t.turno))){showToast('Ya está completada ✅');return;}
   if(t.estudio){pendingTask=t;openModal();}
   else{marcarTarea(t,'','','');}
 }
 
 function openModal(){
-  document.getElementById('m-mat').value='';document.getElementById('m-min').value='';document.getElementById('m-quien').value='solo';
+  document.getElementById('m-mat').value='';
+  document.getElementById('m-min').value='';
+  document.getElementById('m-quien').value='solo';
   document.getElementById('modal-bg').classList.add('open');
 }
-function closeModal(){pendingTask=null;document.getElementById('modal-bg').classList.remove('open');}
+function closeModal(){
+  pendingTask=null;
+  document.getElementById('modal-bg').classList.remove('open');
+}
 function confirmEstudio(){
-  const mat=document.getElementById('m-mat').value.trim(),min=document.getElementById('m-min').value.trim(),quien=document.getElementById('m-quien').value;
+  const mat=document.getElementById('m-mat').value.trim();
+  const min=document.getElementById('m-min').value.trim();
+  const quien=document.getElementById('m-quien').value;
   if(!mat){showToast('Escribe la materia 📝');return;}
   if(!min||Number(min)<1){showToast('Escribe los minutos ⏱');return;}
-  const task=pendingTask;closeModal();marcarTarea(task,quien,mat,min);
+  const task=pendingTask;
+  closeModal();
+  marcarTarea(task,quien,mat,min);
 }
 
 async function marcarTarea(t,quien,materia,minutos){
-  const key=t.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo);
+  const fechaDia=getFechaDia(diaActivo);
   const now=new Date();
   const hora=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  const fila=[getFechaDia(diaActivo),diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE'];
+  const fila=[fechaDia,diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE'];
   try{
     await fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({fila})});
-    completados.add(t.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)+'_'+t.turno);
+    completados.add(clave(t.tarea,diaActivo,fechaDia,t.turno));
     puntosData[diaActivo]=(puntosData[diaActivo]||0)+t.puntos;
     playCheck();
     renderContent();
-    const tareasDia=rutina.filter(t=>t.dia===diaActivo);
-      const tareasDia=rutina.filter(r=>r.dia===diaActivo);
-    const ptsDia=tareasDia.filter(r=>completados.has(r.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)+'_'+r.turno)).reduce((s,r)=>s+Number(r.puntos),0);
-    if(tareasDia.length&&tareasDia.every(r=>completados.has(r.tarea+'_'+diaActivo+'_'+getFechaDia(diaActivo)+'_'+r.turno))){
+    const tareasDia=rutina.filter(r=>r.dia===diaActivo);
+    const ptsDia=tareasDia.filter(r=>completados.has(clave(r.tarea,diaActivo,fechaDia,r.turno))).reduce((s,r)=>s+r.puntos,0);
+    if(tareasDia.length&&tareasDia.every(r=>completados.has(clave(r.tarea,diaActivo,fechaDia,r.turno)))){
       setTimeout(()=>{playCelebration();showCelebration('¡Día completado!','dia',ptsDia);},400);
     }
-  }catch(e){
-    showToast('⚠️ Sin conexión, no se pudo guardar');
-  }
+  }catch(e){showToast('⚠️ Sin conexión, no se pudo guardar');}
+}
+
+function canjear(i){
+  const p=premios[i];
+  if(premiosCanjeados.has(p.premio)){showToast('¡Ya lo has conseguido! ✅');return;}
+  if(ptsDisponibles()<p.puntos){showToast('¡Sigue esforzándote, casi lo tienes! 💪 Te faltan '+(p.puntos-ptsDisponibles())+'⭐');return;}
+  premiosCanjeados.add(p.premio);
+  puntosGastados+=p.puntos;
+  localStorage.setItem('premios_canjeados',JSON.stringify([...premiosCanjeados]));
+  localStorage.setItem('pts_gastados',String(puntosGastados));
+  playCanjeado();
+  fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'premio',premio:p.premio,puntos:p.puntos,fecha:todayStr})}).catch(()=>{});
+  showCelebration(p.premio,'premio',p.puntos);
+  renderPremios();
 }
 
 function showCelebration(titulo,tipo,pts){
   document.getElementById('cel-emoji').textContent=tipo==='premio'?'🎁':'🏆';
-  document.getElementById('cel-title').textContent=tipo==='premio'?titulo:'¡Día completado!';
-  document.getElementById('cel-sub').textContent=tipo==='premio'?'¡Genial, Alonso! 🎉':'¡Lo has conseguido! 🎉';
-  document.getElementById('cel-pts').textContent=tipo==='premio'?`-${pts} ⭐`:`+${pts} ⭐ hoy`;
+  document.getElementById('cel-title').textContent=tipo==='premio'?'¡Premio canjeado!':'¡Día completado!';
+  document.getElementById('cel-sub').textContent=tipo==='premio'?titulo+'  🎉':'¡Lo has conseguido, Alonso! 🎉';
+  document.getElementById('cel-pts').textContent=tipo==='premio'?'-'+pts+' ⭐':'+'+pts+' ⭐';
   document.getElementById('celebration').classList.add('show');
 }
 function closeCelebration(){document.getElementById('celebration').classList.remove('show');}
