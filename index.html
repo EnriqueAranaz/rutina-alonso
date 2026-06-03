@@ -331,16 +331,16 @@ async function init(){
   document.getElementById('hdr-date').textContent=`${diaHoy} · ${now.getDate()} de ${meses[now.getMonth()]}`;
   document.getElementById('splash-sub').textContent=`¡Hola Alonso! Hoy es ${diaHoy} 💪`;
 
-  // Cargar desde localStorage primero
-  const savedComp=JSON.parse(localStorage.getItem('comp_'+todayStr)||'[]');
-  completados=new Set(savedComp);
-  puntosData=JSON.parse(localStorage.getItem('pts_semana')||'{}');
   puntosGastados=parseInt(localStorage.getItem('pts_gastados')||'0');
   premiosCanjeados=new Set(JSON.parse(localStorage.getItem('premios_canjeados')||'[]'));
 
   renderTabs();
-  await Promise.all([loadRutina(),loadCompletados(),loadPremios()]);
-  renderContent();
+  try{
+    await Promise.all([loadRutina(),loadCompletados(),loadPremios()]);
+    renderContent();
+  }catch(e){
+    document.getElementById('content').innerHTML=`<div class="err">⚠️ Sin conexión. Necesitas internet para usar la app.<br><br><button onclick="init()" style="background:#FF7043;color:white;border:none;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer">🔄 Reintentar</button></div>`;
+  }
 }
 
 function esFds(d){return FDS.includes(d||diaActivo);}
@@ -372,23 +372,19 @@ async function loadRutina(){
 }
 
 async function loadCompletados(){
-  try{
-    const j=await gviz('registros');
-    const semana=getSemana();
-    puntosData={};completados=new Set();
-    (j.table.rows||[]).forEach(row=>{
-      const fecha=row.c[0]?.v||'',dia=row.c[1]?.v||'',tarea=row.c[2]?.v||'',comp=row.c[8]?.v;
-      const fs=parseFecha(fecha);
-      if(comp!==true)return;
-      if(fs===todayStr)completados.add(tarea+'_'+dia);
-      if(semana.includes(fs)){
-        const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia);
-        puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
-      }
-    });
-    localStorage.setItem('comp_'+todayStr,JSON.stringify([...completados]));
-    localStorage.setItem('pts_semana',JSON.stringify(puntosData));
-  }catch(e){console.log('registros offline');}
+  const j=await gviz('registros');
+  const semana=getSemana();
+  puntosData={};completados=new Set();
+  (j.table.rows||[]).forEach(row=>{
+    const fecha=row.c[0]?.v||'',dia=row.c[1]?.v||'',tarea=row.c[2]?.v||'',comp=row.c[8]?.v;
+    const fs=parseFecha(fecha);
+    if(comp!==true)return;
+    if(fs===todayStr)completados.add(tarea+'_'+dia);
+    if(semana.includes(fs)){
+      const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia);
+      puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
+    }
+  });
 }
 
 async function loadPremios(){
@@ -555,19 +551,22 @@ function confirmEstudio(){
 
 async function marcarTarea(t,quien,materia,minutos){
   const key=t.tarea+'_'+diaActivo;
-  completados.add(key);
-  puntosData[diaActivo]=(puntosData[diaActivo]||0)+t.puntos;
-  localStorage.setItem('comp_'+todayStr,JSON.stringify([...completados]));
-  localStorage.setItem('pts_semana',JSON.stringify(puntosData));
-  playCheck();
-  renderContent();
-  const tareasDia=rutina.filter(t=>t.dia===diaActivo);
-  if(tareasDia.length&&tareasDia.every(t=>completados.has(t.tarea+'_'+diaActivo))){
-    setTimeout(()=>{playCelebration();showCelebration('¡Día completado!','dia',puntosData[diaActivo]||0);},400);
-  }
   const now=new Date();
   const hora=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  try{await fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({fila:[todayStr,diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE']})});}catch(e){}
+  const fila=[todayStr,diaActivo,t.tarea,t.turno,hora,quien,materia,String(minutos),'TRUE'];
+  try{
+    await fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({fila})});
+    completados.add(key);
+    puntosData[diaActivo]=(puntosData[diaActivo]||0)+t.puntos;
+    playCheck();
+    renderContent();
+    const tareasDia=rutina.filter(t=>t.dia===diaActivo);
+    if(tareasDia.length&&tareasDia.every(t=>completados.has(t.tarea+'_'+diaActivo))){
+      setTimeout(()=>{playCelebration();showCelebration('¡Día completado!','dia',puntosData[diaActivo]||0);},400);
+    }
+  }catch(e){
+    showToast('⚠️ Sin conexión, no se pudo guardar');
+  }
 }
 
 function showCelebration(titulo,tipo,pts){
