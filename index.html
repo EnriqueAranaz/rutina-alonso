@@ -367,10 +367,10 @@ async function loadRutina(){
 
 async function loadCompletados(){
   const j=await gviz('registros');
-  const semana=getSemana();
+  const semana=getSemana(); // [lun, mar, mie, jue, vie, sab, dom]
   puntosData={};completados=new Set();
 
-  // Registrar completados y sumar puntos
+  // 1. Registrar completados y sumar puntos ganados
   (j.table.rows||[]).forEach(row=>{
     const fecha=parseFecha(row.c[0]?.v||'');
     const dia=row.c[1]?.v||'';
@@ -385,20 +385,19 @@ async function loadCompletados(){
     puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
   });
 
-  // Penalizar días pasados por tareas no completadas
-  const hoy=todayStr;
-  semana.forEach((fecha,idx)=>{
-    if(fecha>=hoy)return; // solo días anteriores a hoy
-    const dia=DIAS[idx];
-    const tareasDia=rutina.filter(r=>r.dia===dia);
-    tareasDia.forEach(t=>{
+  // 2. Penalizar días anteriores a hoy por tareas no hechas
+  DIAS.forEach((dia,idx)=>{
+    const fecha=semana[idx];
+    if(!fecha||fecha>=todayStr)return; // solo días pasados
+    rutina.filter(r=>r.dia===dia).forEach(t=>{
       const k=clave(t.tarea,dia,fecha,t.turno);
       if(!completados.has(k)){
-        // No completada — penalizar con el mismo valor
         puntosData[dia]=(puntosData[dia]||0)-t.puntos;
       }
     });
   });
+
+  console.table(puntosData); // debug — ver en consola del navegador
 }
 
 async function loadPremios(){
@@ -433,7 +432,7 @@ function renderContent(){
   const total=tareas.length;
   const hechas=tareas.filter(t=>completados.has(clave(t.tarea,diaActivo,fechaDia,t.turno))).length;
   const pct=total?Math.round(hechas/total*100):0;
-  const ptsHoy=tareas.filter(t=>completados.has(clave(t.tarea,diaActivo,fechaDia,t.turno))).reduce((s,t)=>s+t.puntos,0);
+  const ptsHoy=puntosData[diaActivo]||0;
   const msgs=['¡Vamos que puedes! 💪','¡Buen ritmo! 🔥','¡Ya casi! ⚡','¡Crack! 🏆'];
   const msg=pct===100?'¡Lo lograste todo! 🏆🎉':msgs[Math.min(Math.floor(pct/30),3)];
 
