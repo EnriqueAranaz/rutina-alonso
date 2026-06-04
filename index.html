@@ -376,7 +376,9 @@ async function loadCompletados(){
     const turno=row.c[3]?.v||'';
     const comp=row.c[8]?.v;
     if(comp!==true||!semana.includes(fecha))return;
-    completados.add(clave(tarea,dia,fecha,turno));
+    const k=clave(tarea,dia,fecha,turno);
+    if(completados.has(k))return; // evitar duplicados
+    completados.add(k);
     const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia&&r.turno===turno);
     puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
   });
