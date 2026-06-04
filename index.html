@@ -369,6 +369,8 @@ async function loadCompletados(){
   const j=await gviz('registros');
   const semana=getSemana();
   puntosData={};completados=new Set();
+
+  // Registrar completados y sumar puntos
   (j.table.rows||[]).forEach(row=>{
     const fecha=parseFecha(row.c[0]?.v||'');
     const dia=row.c[1]?.v||'';
@@ -377,10 +379,25 @@ async function loadCompletados(){
     const comp=row.c[8]?.v;
     if(comp!==true||!semana.includes(fecha))return;
     const k=clave(tarea,dia,fecha,turno);
-    if(completados.has(k))return; // evitar duplicados
+    if(completados.has(k))return;
     completados.add(k);
     const t=rutina.find(r=>r.tarea===tarea&&r.dia===dia&&r.turno===turno);
     puntosData[dia]=(puntosData[dia]||0)+(t?t.puntos:1);
+  });
+
+  // Penalizar días pasados por tareas no completadas
+  const hoy=todayStr;
+  semana.forEach((fecha,idx)=>{
+    if(fecha>=hoy)return; // solo días anteriores a hoy
+    const dia=DIAS[idx];
+    const tareasDia=rutina.filter(r=>r.dia===dia);
+    tareasDia.forEach(t=>{
+      const k=clave(t.tarea,dia,fecha,t.turno);
+      if(!completados.has(k)){
+        // No completada — penalizar con el mismo valor
+        puntosData[dia]=(puntosData[dia]||0)-t.puntos;
+      }
+    });
   });
 }
 
